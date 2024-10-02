@@ -4,22 +4,20 @@
 
 @font-face {
     font-family: 'Helvetica';
-    src: url('../fonts/Helvetica.ttf') format('truetype');
+    src: url('/fonts/Helvetica.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Helvetica-Bold';
-    src: url('../fonts/Helvetica-Bold.ttf') format('truetype');
+    src: url('/fonts/Helvetica-Bold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Helvetica-Light';
-    src: url('../fonts/Helvetica-light.ttf') format('truetype');
+    src: url('/fonts/Helvetica-Light.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Helvetica-Oblique';
-    src: url('../fonts/Helvetica-Oblique.ttf') format('truetype');
+    src: url('/fonts/Helvetica-Oblique.ttf') format('truetype');
 }
-
-
