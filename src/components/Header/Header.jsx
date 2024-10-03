@@ -13,7 +13,7 @@ function Header() {
         <Navbar /> {/* Use new component */}
 
         {/* header bottom */}
-        <Promo /> {/* Use new component */}
+        <Promo /> {/*Use new component*/} 
       </div>
     </header>
   );

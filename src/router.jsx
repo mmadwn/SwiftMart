@@ -49,6 +49,38 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "category/electronics",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <lazyComponents.ProductList category="electronics" />
+          </Suspense>
+        ),
+      },
+      {
+        path: "category/jewelry",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <lazyComponents.ProductList category="jewelry" />
+          </Suspense>
+        ),
+      },
+      {
+        path: "category/men's-clothing",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <lazyComponents.ProductList category="men's clothing" />
+          </Suspense>
+        ),
+      },
+      {
+        path: "category/women's-clothing",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <lazyComponents.ProductList category="women's clothing" />
+          </Suspense>
+        ),
+      },
     ],
   },
   {
@@ -56,7 +88,7 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: "login",
+        path: "/auth",
         element: <LoginPage />,
       },
     ],

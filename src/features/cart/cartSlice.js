@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setCart, getCart } from "../../utils/localStorage";
 
 const initialState = {
-    items: getCart(), // Load initial cart from local storage
+    items: JSON.parse(localStorage.getItem('cart')) || [], // Load cart items from local storage
     totalPrice: 0,
     totalQuantity: 0,
 };
@@ -12,27 +11,59 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            const item = action.payload;
-            const existingItem = state.items.find((i) => i.id === item.id);
+            const existingItem = state.items.find(item => item.id === action.payload.id);
             if (existingItem) {
-                existingItem.quantity += item.quantity; // Update quantity if item exists
+                existingItem.quantity += action.payload.quantity;
             } else {
-                state.items.push(item); // Add new item
+                state.items.push(action.payload); // Ensure this is an object with the correct structure
             }
-            setCart(state.items); // Save updated cart to local storage
+            // Save updated cart to local storage
+            localStorage.setItem('cart', JSON.stringify(state.items));
         },
         removeFromCart: (state, action) => {
-            const itemId = action.payload;
-            state.items = state.items.filter((item) => item.id !== itemId); // Remove item
-            setCart(state.items); // Save updated cart to local storage
+            state.items = state.items.filter(item => item.id !== action.payload);
+            // Save updated cart to local storage
+            localStorage.setItem('cart', JSON.stringify(state.items));
+        },
+        increaseQuantity: (state, action) => {
+            const item = state.items.find(item => item.id === action.payload);
+            if (item) {
+                item.quantity += 1;
+                // Save updated cart to local storage
+                localStorage.setItem('cart', JSON.stringify(state.items));
+            }
+        },
+        decreaseQuantity: (state, action) => {
+            const item = state.items.find(item => item.id === action.payload);
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+                // Save updated cart to local storage
+                localStorage.setItem('cart', JSON.stringify(state.items));
+            }
         },
         clearCart: (state) => {
             state.items = [];
-            setCart(state.items); // Clear cart in local storage
+            // Clear cart from local storage
+            localStorage.removeItem('cart');
+        },
+        // New action to update product quantities
+        updateProductQuantities: (state, action) => {
+            const productsToUpdate = action.payload; // Expecting an array of product objects with id and quantity
+            productsToUpdate.forEach(product => {
+                const existingProduct = state.items.find(item => item.id === product.id);
+                if (existingProduct) {
+                    existingProduct.quantity -= product.quantity; // Reduce the quantity based on the checkout
+                    // Ensure quantity does not go below zero
+                    if (existingProduct.quantity < 0) {
+                        existingProduct.quantity = 0; // Prevent negative quantities
+                    }
+                }
+            });
+            localStorage.setItem('cart', JSON.stringify(state.items)); // Update local storage
         },
     },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, updateProductQuantities } = cartSlice.actions;
 export default cartSlice.reducer;
 

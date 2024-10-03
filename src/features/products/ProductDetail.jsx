@@ -1,22 +1,53 @@
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../cart/cartSlice';
+import { useEffect } from 'react';
+import { fetchProductsAsync, setSelectedProduct } from './productsSlice';
 
 const ProductDetail = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const product = useSelector((state) => state.products.allProducts.find(p => p.id === parseInt(id)));
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+    useEffect(() => {
+        dispatch(fetchProductsAsync());
+        if (product) {
+            dispatch(setSelectedProduct(product));
+        }
+    }, [dispatch, product]);
 
     if (!product) return <p>Product not found</p>;
 
+    const handleAddToCart = () => {
+        if (!isAuthenticated) {
+            navigate('/auth');
+        } else {
+            dispatch(addToCart({ ...product, quantity: 1 }));
+        }
+    };
+
     return (
-        <div className="product-detail p-4">
-            <div className="flex flex-col md:flex-row">
-                <img src={product.image} alt={product.title} className="w-full md:w-1/2 h-auto object-cover mb-4 md:mb-0" />
-                <div className="md:ml-4">
-                    <h2 className="text-2xl font-bold">{product.title}</h2>
-                    <p className="text-lg text-blue-600 font-bold">${product.price}</p>
-                    <p className="text-sm text-gray-600">Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
-                    <p className="mt-4">{product.description}</p>
-                    <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Add to Cart</button>
+        <div className="product-detail p-4 max-w-4xl mx-auto">
+            <div className="flex items-center">
+                <img src={product.image} alt={product.title} className="w-64 h-64 object-contain mb-8" />
+                <div className="ml-8 flex-1">
+                    <h2 className="text-3xl font-bold mb-4">{product.title}</h2>
+                    <p className="text-2xl text-blue-600 font-bold mb-4">${product.price}</p>
+                    <div className="flex items-center mb-4">
+                        <span className="text-yellow-500 mr-2">★</span>
+                        <p className="text-gray-600">{product.rating.rate} ({product.rating.count} reviews)</p>
+                    </div>
+                    <p className="text-gray-700 mb-6">{product.description}</p>
+                    {/* Display available quantity */}
+                    <p className="text-lg font-semibold mb-4">Available Quantity: {product.quantity}</p>
+                    <button 
+                        onClick={handleAddToCart}
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full transition duration-300"
+                    >
+                        Add to Cart
+                    </button>
                 </div>
             </div>
         </div>

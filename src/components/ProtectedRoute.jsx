@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const ProtectedRoute = ({ children }) => {
   const token = getToken();
   if (!token) {
-    return <Navigate to="/auth/login" replace />; // Redirect to /auth/login if not logged in
+    return <Navigate to="/auth" />; // Redirect to /auth/login if not logged in
   }
   return children;
 };
