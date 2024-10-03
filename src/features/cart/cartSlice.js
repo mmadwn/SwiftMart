@@ -59,7 +59,6 @@ const cartSlice = createSlice({
                     }
                 }
             });
-            localStorage.setItem('cart', JSON.stringify(state.items)); // Update local storage
         },
     },
 });

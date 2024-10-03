@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../cart/cartSlice';
 import { useEffect } from 'react';
 import { fetchProductsAsync, setSelectedProduct } from './productsSlice';
+import PropTypes from 'prop-types'; // Import PropTypes for prop validation
 
-const ProductDetail = () => {
+const ProductDetail = ({ category = "allProducts" }) => {
+    console.log(category);
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const product = useSelector((state) => state.products.allProducts.find(p => p.id === parseInt(id)));
+    const product = useSelector((state) => state.products[category].find(p => p.id === parseInt(id)));
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     useEffect(() => {
@@ -52,6 +54,11 @@ const ProductDetail = () => {
             </div>
         </div>
     );
+};
+
+// Add prop validation
+ProductDetail.propTypes = {
+    category: PropTypes.string
 };
 
 export default ProductDetail;

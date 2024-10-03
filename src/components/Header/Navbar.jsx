@@ -38,10 +38,10 @@ function Navbar() {
 
       <nav className={`${isMenuOpen ? 'block' : 'hidden'} w-1/3 lg:flex lg:items-center lg:w-auto mt-4 lg:mt-0`}>
         <ul className="flex flex-col lg:flex-row items-center justify-center gap-4 font-semibold">
-          <li><Link to="/" className="block py-2 lg:py-0">Electronics</Link></li>
-          <li><Link to="/" className="block py-2 lg:py-0">Jewelry</Link></li>
-          <li><Link to="/" className="block py-2 lg:py-0">Men&apos;s Clothing</Link></li>
-          <li><Link to="/" className="block py-2 lg:py-0">Women&apos;s Clothing</Link></li>
+          <li><Link to="/products/category/electronics" className="block py-2 lg:py-0">Electronics</Link></li> 
+          <li><Link to="/products/category/jewelry" className="block py-2 lg:py-0">Jewelry</Link></li> 
+          <li><Link to="/products/category/mens-clothing" className="block py-2 lg:py-0">Men&apos;s Clothing</Link></li> 
+          <li><Link to="/products/category/womens-clothing" className="block py-2 lg:py-0">Women&apos;s Clothing</Link></li>
         </ul>
       </nav>
 

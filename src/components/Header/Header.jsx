@@ -1,19 +1,18 @@
 import AdditionalNav from './AdditionalNav';
-import Navbar from './Navbar'; // Import new component
-import Promo from './Promo'; // Import new component
+import Navbar from './Navbar';
+import Promo from './Promo'; 
 
 function Header() {
   return (
     <header>
       <div className="flex flex-col justify-center">
         {/* header top */}
-        <AdditionalNav /> {/* Use new component */}
-
+        <AdditionalNav />
         {/* header mid */}
-        <Navbar /> {/* Use new component */}
+        <Navbar /> 
 
         {/* header bottom */}
-        <Promo /> {/*Use new component*/} 
+        <Promo />
       </div>
     </header>
   );

@@ -1,17 +1,17 @@
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from './authSlice'; // Ensure this action is imported
-import { loginUser } from '../../utils/api'; // Import the loginUser function
-import { setToken } from '../../utils/localStorage'; // Import local storage functions
+import { loginSuccess } from './authSlice'; 
+import { loginUser } from '../../utils/api'; 
+import { setToken } from '../../utils/localStorage'; 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // Initialize navigate
+    const navigate = useNavigate(); 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false); // Add loading state
+    const [loading, setLoading] = useState(false); 
 
     const handleLogin = async (e) => {
         e.preventDefault(); // Prevent default form submission
@@ -45,7 +45,7 @@ function LoginPage() {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
-                        className="border p-2 mb-4 w-full"
+                        className="border p-2 mb-4 w-full focus:border-black"
                     />
                     <input
                         type="password"
@@ -53,9 +53,9 @@ function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="border p-2 mb-4 w-full"
+                        className="border p-2 mb-4 w-full hover:border-black focus:border-black"
                     />
-                    <button type="submit" disabled={loading} className="bg-blue-500 text-white p-2 rounded w-full">
+                    <button type="submit" disabled={loading} className="bg-transparent text-blue-950 border border-blue-950 p-2 rounded w-full">
                         {loading ? 'Loading...' : 'Login'}
                     </button>
                     {error && <p className="text-red-500 text-center mt-2">{error}</p>} {/* Display error message */}

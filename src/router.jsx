@@ -13,7 +13,6 @@ const lazyComponents = {
   CartPage: lazy(() => import("./features/cart/CartPage")),
 };
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -50,7 +49,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "category/electronics",
+        path: "products/category/electronics",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductList category="electronics" />
@@ -58,7 +57,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "category/jewelry",
+        path: "products/category/jewelry",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductList category="jewelry" />
@@ -66,18 +65,18 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "category/men's-clothing",
+        path: "products/category/mens-clothing",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <lazyComponents.ProductList category="men's clothing" />
+            <lazyComponents.ProductList category="mens" />
           </Suspense>
         ),
       },
       {
-        path: "category/women's-clothing",
+        path: "products/category/womens-clothing",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <lazyComponents.ProductList category="women's clothing" />
+            <lazyComponents.ProductList category="womens" />
           </Suspense>
         ),
       },

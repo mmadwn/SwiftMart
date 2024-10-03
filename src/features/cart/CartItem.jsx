@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, increaseQuantity, decreaseQuantity } from './cartSlice'; // Import necessary actions
+import PropTypes from 'prop-types';
 
 function CartItem({ item }) {
     const dispatch = useDispatch();
@@ -44,5 +45,9 @@ function CartItem({ item }) {
         </div>
     );
 }
+
+CartItem.propTypes = {
+    item: PropTypes.object.zzisRequired,
+};
 
 export default CartItem;
