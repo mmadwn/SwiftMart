@@ -8,10 +8,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'text-title': ['Helvetica', 'sans-serif'],
-        'text-title-bold': ['Helvetica-Bold', 'sans-serif'],
-        'text-light': ['Helvetica-Light', 'sans-serif'],
-        'text-oblique': ['Helvetica-Oblique', 'sans-serif'],
+        'h-regular': ['Helvetica', 'sans-serif'],
+        'h-bold': ['Helvetica-Bold', 'sans-serif'],
+        'h-light': ['Helvetica-Light', 'sans-serif'],
+        'h-oblique': ['Helvetica-Oblique', 'sans-serif'],
       },
     },
   },
