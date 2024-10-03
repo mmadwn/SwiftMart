@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/logo.webp" alt="SwiftMart Logo" width="200"/>
+<img src="src/assets/images/logo.webp" alt="SwiftMart Logo" width="200"/>
 
 SwiftMart is a React application built with Vite, providing a fast and efficient shopping experience.
 
