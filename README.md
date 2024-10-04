@@ -2,7 +2,7 @@
 
 <img src="src/assets/images/logo.webp" alt="SwiftMart Logo" width="200"/>
 
-SwiftMart is a React application built with Vite, providing a fast and efficient shopping experience.
+SwiftMart is an e-commerce platform designed to provide a fast and efficient shopping experience. With an intuitive interface and a wide range of products, SwiftMart ensures you get what you need quickly and easily.
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
