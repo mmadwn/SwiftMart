@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="w-full bg-gray-50 border-t border-gray-200 py-8 mt-8">
       <div className="container mx-auto px-6">
@@ -39,7 +41,7 @@ function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center font-h-light">
-          <p className="text-sm text-gray-600 mb-4 md:mb-0">© 2023 SwiftMart. All rights reserved.</p>
+          <p className="text-sm text-gray-600 mb-4 md:mb-0">© {currentYear} SwiftMart. All rights reserved.</p>
           <div className="flex flex-wrap justify-center md:justify-end space-x-6">
             <Link to="/terms" className="text-sm text-gray-600 hover:text-gray-900 mb-2 md:mb-0">Terms of Use</Link>
             <Link to="/privacy" className="text-sm text-gray-600 hover:text-gray-900 mb-2 md:mb-0">Privacy Policy</Link>
