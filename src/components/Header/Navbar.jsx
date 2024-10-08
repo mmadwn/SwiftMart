@@ -1,16 +1,15 @@
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.webp";
 import { FaSearch } from "react-icons/fa";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { useState } from "react";
-import { useSelector } from "react-redux"; // Import useSelector
+import { useSelector } from "react-redux"; 
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate(); // Initialize navigate
   const cartItems = useSelector((state) => state.cart.items); // Get cart items from Redux store
-
-  console.log(cartItems);
+  
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0); // Calculate total quantity
 
   const handleCartClick = () => {

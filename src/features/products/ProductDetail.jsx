@@ -29,6 +29,9 @@ const ProductDetail = () => {
     const handleAddToCart = () => {
         if (!isAuthenticated) {
             navigate('/auth');
+        } else if (product.quantity <= 0) {
+            // Show an error message or notification
+            alert("Sorry, this product is out of stock.");
         } else {
             dispatch(addToCart({ ...product, quantity: 1 }));
         }

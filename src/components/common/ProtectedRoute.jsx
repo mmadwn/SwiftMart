@@ -1,17 +1,18 @@
 import { Navigate } from "react-router-dom";
-import { getToken } from "../../utils/localStorage";
+import { useSelector } from "react-redux"; // Import useSelector
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
-  const token = getToken();
-  if (!token) {
-    return <Navigate to="/auth" />; // Redirect to /auth/login if not logged in
-  }
-  return children;
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Get authentication status from Redux
+
+    if (!isAuthenticated) {
+        return <Navigate to="/auth" />; // Redirect to /auth if not logged in
+    }
+    return children;
 };
 
 ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export default ProtectedRoute;

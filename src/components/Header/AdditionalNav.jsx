@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { LuUser } from "react-icons/lu";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from 'react';
-import { logout } from '../../features/auth/authSlice'; // Add this import
+import { logout } from '../../features/auth/authSlice';
 
 function AdditionalNav() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dispatch = useDispatch();
+  
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -21,7 +22,7 @@ function AdditionalNav() {
         <li>
           <Link to="/" className="text-sm">Join Us</Link>
         </li>
-        {isAuthenticated && (
+        {isAuthenticated ? (
           <li className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -70,6 +71,13 @@ function AdditionalNav() {
                 </button>
               </div>
             )}
+          </li>
+        ) : (
+          <li>
+            <Link to="/auth" className="text-sm flex items-center">
+              <LuUser className="inline-block text-lg mr-1" />
+              Login
+            </Link>
           </li>
         )}
       </ul>

@@ -1,51 +1,51 @@
-import { useDispatch} from 'react-redux';
-import { loginSuccess } from './authSlice'; 
-import { loginUser } from '../../utils/api'; 
-import { setToken } from '../../utils/localStorage'; 
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUserAsync, resetError } from './authSlice';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/common/Spinner'; // Import Spinner
-import ErrorPage from '../../components/common/ErrorPage'; // Import ErrorPage
+import Spinner from '../../components/common/Spinner'; 
 
 function LoginPage() {
     const dispatch = useDispatch();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false); 
+    const error = useSelector((state) => state.auth.error);
+    const loading = useSelector((state) => state.auth.loading);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const handleLogin = async (e) => {
-        e.preventDefault(); // Prevent default form submission
-        setError(''); // Reset error message
-        setLoading(true); // Set loading to true
+        e.preventDefault();
+        dispatch(loginUserAsync({ username, password }));
+    };
 
-        try {
-            const data = await loginUser(username, password);
-            if (data.token) {
-                setToken(data.token); // Use the utility function to set the token
-                dispatch(loginSuccess({ token: data.token, user: { username } })); // Update Redux state
-                navigate("/cart"); // Redirect to CartPage after successful login
-            } else {
-                setError('Login failed. Please check your credentials.'); // Set error message
-            }
-        } catch (error) {
-            setError(error.message); // Handle error appropriately
-        } finally {
-            setLoading(false); // Reset loading state
+    const handleInputChange = (e) => {
+        if (error) {
+            dispatch(resetError());
+        }
+        if (e.target.name === 'username') {
+            setUsername(e.target.value);
+        } else {
+            setPassword(e.target.value);
         }
     };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/cart");
+        }
+        // Reset error when component mounts or unmounts
+        return () => {
+            dispatch(resetError());
+        };
+    }, [isAuthenticated, navigate, dispatch]);
 
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <Spinner message="Logging in..." /> {/* Show loading spinner with message */}
+                <Spinner message="Logging in..." /> 
             </div>
         );
-    }
-    if (error) {
-        return <ErrorPage errorMessage={error} />; // Show error page
-    }
+    } 
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -54,24 +54,26 @@ function LoginPage() {
                 <form onSubmit={handleLogin}>
                     <input
                         type="text"
+                        name="username"
                         placeholder="Username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={handleInputChange}
                         required
                         className="border p-2 mb-4 w-full focus:border-black"
                     />
                     <input
                         type="password"
+                        name="password"
                         placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handleInputChange}
                         required
                         className="border p-2 mb-4 w-full hover:border-black focus:border-black"
                     />
                     <button type="submit" disabled={loading} className="bg-transparent text-blue-950 border border-blue-950 p-2 rounded w-full">
                         {loading ? 'Loading...' : 'Login'}
                     </button>
-                    {error && <p className="text-red-500 text-center mt-2">{error}</p>} {/* Display error message */}
+                    {error && <p className="text-red-500 text-center mt-2">Invalid username or password. Please try again.</p>}
                 </form>
             </div>
         </div>

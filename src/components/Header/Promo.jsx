@@ -12,7 +12,7 @@ function Promo() {
     const intervalId = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * promos.length);
       setCurrentPromo(promos[randomIndex]);
-    }, 5000); // Change promo every 5 seconds
+    }, 3000); // Change promo every 3 seconds
 
     return () => clearInterval(intervalId);
   }, []);
