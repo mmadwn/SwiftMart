@@ -27,57 +27,45 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductList />
-          </Suspense>
         ),
       },
       {
         path: "products/:id",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductDetail />
-          </Suspense>
         ),
       },
       {
         path: "cart",
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<div>Loading...</div>}>
               <lazyComponents.CartPage />
-            </Suspense>
           </ProtectedRoute>
         ),
       },
       {
         path: "products/category/electronics",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductList category="electronics" />
-          </Suspense>
         ),
       },
       {
         path: "products/category/jewelry",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductList category="jewelry" />
-          </Suspense>
         ),
       },
       {
         path: "products/category/mens-clothing",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
             <lazyComponents.ProductList category="mens" />
-          </Suspense>
         ),
       },
       {
         path: "products/category/womens-clothing",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading...</div>}> {/* EXPERIMENTAL */}
             <lazyComponents.ProductList category="womens" />
           </Suspense>
         ),
