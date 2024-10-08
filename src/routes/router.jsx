@@ -1,22 +1,24 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
-import AuthLayout from "./layouts/AuthLayout";
-import LoginPage from "./features/auth/LoginPage";
-import HomePage from "./pages/HomePage";
-import ProtectedRoute from "./components/ProtectedRoute";
+import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/AuthLayout";
+import LoginPage from "../features/auth/LoginPage";
+import HomePage from "../pages/HomePage";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+import ErrorPage from "../components/common/ErrorPage";
 
-// Lazy load the ProductList and ProductDetail components
+// Lazy load the ProductList and ProductDetail components : EXPERIMENTAL
 const lazyComponents = {
-  ProductList: lazy(() => import("./features/products/ProductList")),
-  ProductDetail: lazy(() => import("./features/products/ProductDetail")),
-  CartPage: lazy(() => import("./features/cart/CartPage")),
+  ProductList: lazy(() => import("../features/products/ProductList")),
+  ProductDetail: lazy(() => import("../features/products/ProductDetail")),
+  CartPage: lazy(() => import("../features/cart/CartPage")),
 };
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -85,6 +87,7 @@ export const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/auth",

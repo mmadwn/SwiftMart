@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { getToken } from "../utils/localStorage";
+import { getToken } from "../../utils/localStorage";
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {

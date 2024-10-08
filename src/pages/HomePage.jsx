@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsAsync } from "../features/products/productsSlice";
-import { FaStar } from "react-icons/fa"; // Import star icon for ratings
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { FaStar } from "react-icons/fa"; 
+import { Link } from "react-router-dom"; 
 import video from "../assets/videos/hero.mp4"
+import Spinner from "../components/common/Spinner"; 
+import ErrorPage from "../components/common/ErrorPage"; 
+
 export default function HomePage() {
   const dispatch = useDispatch();
   const menClothing = useSelector((state) => state.products.mensProducts);
@@ -15,20 +18,22 @@ export default function HomePage() {
     dispatch(fetchProductsAsync());
   }, [dispatch]);
 
-  // Filter out duplicates
-  // const uniqueMenClothing = Array.from(
-  //   new Set(menClothing.map((item) => item.id))
-  // ).map((id) => menClothing.find((item) => item.id === id));
+  // Ui for loading and error
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner message="Loading products..." />
+      </div>
+    );
+  }
 
-  // const uniqueWomenClothing = Array.from(
-  //   new Set(womenClothing.map((item) => item.id))
-  // ).map((id) => womenClothing.find((item) => item.id === id));
+  if (error) {
+    return <ErrorPage errorMessage={error} />;
+  }
 
+  // Ui for the Home Page
   return (
     <div className="home-page flex flex-col bg-white text-gray-800">
-      {loading && <p className="text-center">Loading products...</p>}
-      {error && <p className="error text-center text-red-500">{error}</p>}
-
       <div className="video-container w-full mb-8 relative">
         <section className="video-section">
           <video

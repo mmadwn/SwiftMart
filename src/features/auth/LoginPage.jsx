@@ -1,9 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { loginSuccess } from './authSlice'; 
 import { loginUser } from '../../utils/api'; 
 import { setToken } from '../../utils/localStorage'; 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../../components/common/Spinner'; // Import Spinner
+import ErrorPage from '../../components/common/ErrorPage'; // Import ErrorPage
 
 function LoginPage() {
     const dispatch = useDispatch();
@@ -33,6 +35,17 @@ function LoginPage() {
             setLoading(false); // Reset loading state
         }
     };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <Spinner message="Logging in..." /> {/* Show loading spinner with message */}
+            </div>
+        );
+    }
+    if (error) {
+        return <ErrorPage errorMessage={error} />; // Show error page
+    }
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">

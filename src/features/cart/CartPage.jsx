@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import CartItem from './CartItem';
-import { clearCart, updateProductQuantities } from './cartSlice';
+import { clearCart } from './cartSlice';
+import { updateProductQuantities } from '../products/productsSlice';
 import { FaShoppingCart } from 'react-icons/fa';
 
 function CartPage() {
@@ -8,9 +9,15 @@ function CartPage() {
     const items = useSelector((state) => state.cart.items);
 
     const handleCheckout = () => {
-        // Dispatch the action to update product quantities based on the cart items
-        dispatch(updateProductQuantities(items)); // Pass the items in the cart to update their quantities
-        dispatch(clearCart()); // Clear the cart after updating quantities
+        // Create an array of products to update
+        const productsToUpdate = items.map(item => ({
+            id: item.id,
+            quantity: item.quantity
+        }));
+
+        // Dispatch the updateProductQuantities action with the array
+        dispatch(updateProductQuantities(productsToUpdate));
+        dispatch(clearCart()); 
     };
 
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -21,6 +28,8 @@ function CartPage() {
                 <FaShoppingCart className="mr-3" />
                 Your Cart
             </h2>
+
+            {/* Show cart if it's not empty and show message if it's empty */}
             {items.length === 0 ? (
                 <p className="text-center text-gray-700 text-lg">Your cart is empty.</p>
             ) : (
@@ -35,6 +44,8 @@ function CartPage() {
                     </div>
                 </div>
             )}
+
+            {/* Show Proceed to Checkout button if cart is not empty */}
             {items.length > 0 && (
                 <div className="text-center mt-8">
                     <button 

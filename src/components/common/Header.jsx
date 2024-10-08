@@ -1,6 +1,6 @@
-import AdditionalNav from './AdditionalNav';
-import Navbar from './Navbar';
-import Promo from './Promo'; 
+import AdditionalNav from '../Header/AdditionalNav';
+import Navbar from '../Header/Navbar';
+import Promo from '../Header/Promo'; 
 
 function Header() {
   return (

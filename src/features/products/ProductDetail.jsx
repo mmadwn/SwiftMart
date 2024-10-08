@@ -3,24 +3,28 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../cart/cartSlice';
 import { useEffect } from 'react';
 import { fetchProductsAsync, setSelectedProduct } from './productsSlice';
-import PropTypes from 'prop-types'; // Import PropTypes for prop validation
+import PropTypes from 'prop-types';
+import Spinner from '../../components/common/Spinner';
+import ErrorPage from '../../components/common/ErrorPage';
 
-const ProductDetail = ({ category = "allProducts" }) => {
-    console.log(category);
+const ProductDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const product = useSelector((state) => state.products[category].find(p => p.id === parseInt(id)));
+    const product = useSelector((state) => state.products.allProducts.find(p => p.id === parseInt(id)));
+    const loading = useSelector((state) => state.products.loading);
+    const error = useSelector((state) => state.products.error);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     useEffect(() => {
         dispatch(fetchProductsAsync());
+    }, [dispatch]);
+
+    useEffect(() => {
         if (product) {
             dispatch(setSelectedProduct(product));
         }
-    }, [dispatch, product]);
-
-    if (!product) return <p>Product not found</p>;
+    }, [product, dispatch]);
 
     const handleAddToCart = () => {
         if (!isAuthenticated) {
@@ -30,6 +34,20 @@ const ProductDetail = ({ category = "allProducts" }) => {
         }
     };
 
+    // Ui for loading and error
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <Spinner message="Loading product details..." /> {/* Show loading spinner with message */}
+            </div>
+        );
+    }
+
+    if (error || !product) {
+        return <ErrorPage errorMessage="Product not found." />; // Show error page if product is not found
+    }
+
+    // UI for product details
     return (
         <div className="product-detail p-4 max-w-4xl mx-auto">
             <div className="flex items-center">
@@ -46,7 +64,7 @@ const ProductDetail = ({ category = "allProducts" }) => {
                     <p className="text-lg font-semibold mb-4">Available Quantity: {product.quantity}</p>
                     <button 
                         onClick={handleAddToCart}
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full transition duration-300"
+                        className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-6 rounded-full transition duration-300"
                     >
                         Add to Cart
                     </button>
