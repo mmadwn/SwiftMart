@@ -1,23 +1,23 @@
 import { useSelector, useDispatch } from 'react-redux';
 import CartItem from './CartItem';
-import { clearCart } from './cartSlice';
+import { clearCart } from './cartSlice'; 
 import { updateProductQuantities } from '../products/productsSlice';
 import { FaShoppingCart } from 'react-icons/fa';
 
 function CartPage() {
     const dispatch = useDispatch();
     const items = useSelector((state) => state.cart.items);
-
+    
     const handleCheckout = () => {
         // Create an array of products to update
         const productsToUpdate = items.map(item => ({
             id: item.id,
             quantity: item.quantity
         }));
-
+        
         // Dispatch the updateProductQuantities action with the array
         dispatch(updateProductQuantities(productsToUpdate));
-        dispatch(clearCart()); 
+        dispatch(clearCart()); // Clear the cart after updating quantities
     };
 
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);

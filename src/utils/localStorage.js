@@ -21,6 +21,6 @@ export const getCart = () => {
     return cart ? JSON.parse(cart) : []; // Return an empty array if cart is not found
 };
 
-export const clearCart = () => {
+export const removeCart = () => {
     localStorage.removeItem('cart');
 };
