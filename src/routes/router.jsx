@@ -6,12 +6,12 @@ import LoginPage from "../features/auth/LoginPage";
 import HomePage from "../pages/HomePage";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import ErrorPage from "../components/common/ErrorPage";
+import ProductList from "../features/products/ProductList";
+import CartPage from "../features/cart/CartPage";
 
 // Lazy load the ProductList and ProductDetail components : EXPERIMENTAL
 const lazyComponents = {
-  ProductList: lazy(() => import("../features/products/ProductList")),
   ProductDetail: lazy(() => import("../features/products/ProductDetail")),
-  CartPage: lazy(() => import("../features/cart/CartPage")),
 };
 
 export const router = createBrowserRouter([
@@ -27,47 +27,47 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: (
-            <lazyComponents.ProductList />
+            <ProductList />
         ),
       },
       {
         path: "products/:id",
         element: (
-            <lazyComponents.ProductDetail />
+            <Suspense fallback={<div>Loading...</div>}> {/* EXPERIMENTAL */}
+                <lazyComponents.ProductDetail />
+            </Suspense>
         ),
       },
       {
         path: "cart",
         element: (
           <ProtectedRoute>
-              <lazyComponents.CartPage />
+              <CartPage />
           </ProtectedRoute>
         ),
       },
       {
         path: "products/category/electronics",
         element: (
-            <lazyComponents.ProductList category="electronics" />
+            <ProductList category="electronics" />
         ),
       },
       {
         path: "products/category/jewelry",
         element: (
-            <lazyComponents.ProductList category="jewelry" />
+            <ProductList category="jewelry" />
         ),
       },
       {
         path: "products/category/mens-clothing",
         element: (
-            <lazyComponents.ProductList category="mens" />
+            <ProductList category="mens" />
         ),
       },
       {
         path: "products/category/womens-clothing",
         element: (
-          <Suspense fallback={<div>Loading...</div>}> {/* EXPERIMENTAL */}
-            <lazyComponents.ProductList category="womens" />
-          </Suspense>
+            <ProductList category="womens" />
         ),
       },
     ],
