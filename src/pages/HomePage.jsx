@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsAsync } from "../features/products/productsSlice";
-import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import video from "../assets/videos/hero.mp4";
 import Spinner from "../components/common/Spinner";
 import ErrorPage from "../components/common/ErrorPage";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ProductItem from "../features/products/ProductItem"; // Import the new ProductItem component
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/*Product Items*/}
+          {/* Product Items */}
           <div
             className={`men-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-12 ${
               isMenScrollbarVisible ? "scrollbar-visible" : "scrollbar-hide"
@@ -111,29 +111,7 @@ export default function HomePage() {
             onMouseLeave={() => setMenScrollbarVisible(false)} // Hide scrollbar on mouse leave
           >
             {menClothing.map((product) => (
-              <Link
-                to={`/products/${product.id}`}
-                key={product.id}
-                className="flex-shrink-0 w-96 group"
-              >
-                <div className="w-full h-96 mb-4 rounded-lg overflow-hidden p-4">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold truncate mb-2">
-                  {product.title}
-                </h3>
-                <p className="text-blue-600 font-bold text-2xl mb-2">
-                  ${product.price.toFixed(2)}
-                </p>
-                <p className="text-base text-gray-600 flex items-center">
-                  <FaStar className="text-yellow-500 mr-2" />
-                  {product.rating.rate} ({product.rating.count} reviews)
-                </p>
-              </Link>
+              <ProductItem product={product} key={product.id} /> // Use the new ProductItem component
             ))}
           </div>
         </section>
@@ -147,9 +125,7 @@ export default function HomePage() {
                 className="bg-gray-200 p-3 rounded-full text-xl hover:bg-gray-300 transition-colors"
                 aria-label="Scroll products left"
                 onClick={() => {
-                  const container = document.querySelector(
-                    ".women-product-list"
-                  );
+                  const container = document.querySelector(".women-product-list");
                   container.scrollBy({ left: -400, behavior: "smooth" });
                 }}
               >
@@ -159,9 +135,7 @@ export default function HomePage() {
                 className="bg-gray-200 p-3 rounded-full text-xl hover:bg-gray-300 transition-colors"
                 aria-label="Scroll products right"
                 onClick={() => {
-                  const container = document.querySelector(
-                    ".women-product-list"
-                  );
+                  const container = document.querySelector(".women-product-list");
                   container.scrollBy({ left: 400, behavior: "smooth" });
                 }}
               >
@@ -170,7 +144,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/*Product Items*/}
+          {/* Product Items */}
           <div
             className={`women-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-12 ${
               isWomenScrollbarVisible ? "scrollbar-visible" : "scrollbar-hide"
@@ -179,29 +153,7 @@ export default function HomePage() {
             onMouseLeave={() => setWomenScrollbarVisible(false)}
           >
             {womenClothing.map((product) => (
-              <Link
-                to={`/products/${product.id}`}
-                key={product.id}
-                className="flex-shrink-0 w-96 group"
-              >
-                <div className="w-full h-96 mb-4 rounded-lg overflow-hidden p-4">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold truncate mb-2">
-                  {product.title}
-                </h3>
-                <p className="text-blue-600 font-bold text-2xl mb-2">
-                  ${product.price.toFixed(2)}
-                </p>
-                <p className="text-base text-gray-600 flex items-center">
-                  <FaStar className="text-yellow-500 mr-2" />
-                  {product.rating.rate} ({product.rating.count} reviews)
-                </p>
-              </Link>
+              <ProductItem product={product} key={product.id} /> // Use the new ProductItem component
             ))}
           </div>
         </section>

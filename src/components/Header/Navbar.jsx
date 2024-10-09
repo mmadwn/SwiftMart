@@ -1,62 +1,99 @@
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/logo.webp";
+import Logo from "../../assets/images/logo.png";
 import { FaSearch } from "react-icons/fa";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { useState } from "react";
-import { useSelector } from "react-redux"; 
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
-  const cartItems = useSelector((state) => state.cart.items); // Get cart items from Redux store
-  
-  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0); // Calculate total quantity
+  const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cart.items);
+
+  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const handleCartClick = () => {
-    navigate("/cart"); // Navigate to CartPage; ProtectedRoute will handle authentication
+    navigate("/cart");
   };
 
   return (
     <div className="flex flex-wrap items-center justify-between px-4 sm:px-6 lg:px-12 py-2">
-      <div className="flex items-center w-1/3">
-        <div className="w-10 h-10 sm:w-12 sm:h-12">
-          <Link to="/">
-            <img src={Logo} alt="website logo" className="w-full h-full" />
-          </Link>
-        </div>
+      {/*Left side of the navbar */}
+      <div className="flex items-center w-full sm:w-1/3 mb-4 sm:mb-0">
+        <Link to="/" className="w-16 sm:w-20 sm:h-20 flex-shrink-0">
+          <img
+            src={Logo}
+            alt="website logo"
+            className="w-full h-full object-contain"
+          />
+        </Link>
       </div>
 
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="lg:hidden text-gray-700 hover:text-gray-900"
+        className="sm:hidden text-gray-700 hover:text-gray-900 absolute right-4 top-4"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
       </button>
 
-      <nav className={`${isMenuOpen ? 'block' : 'hidden'} w-1/3 lg:flex lg:items-center lg:w-auto mt-4 lg:mt-0`}>
-        <ul className="flex flex-col lg:flex-row items-center justify-center gap-4 font-semibold">
-          <li><Link to="/products/category/electronics" className="block py-2 lg:py-0">Electronics</Link></li> 
-          <li><Link to="/products/category/jewelry" className="block py-2 lg:py-0">Jewelry</Link></li> 
-          <li><Link to="/products/category/mens-clothing" className="block py-2 lg:py-0">Men&apos;s Clothing</Link></li> 
-          <li><Link to="/products/category/womens-clothing" className="block py-2 lg:py-0">Women&apos;s Clothing</Link></li>
+      {/*Center side of the navbar */}
+      <nav
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        } w-full sm:w-1/3 sm:flex sm:items-center sm:justify-center mt-4 sm:mt-0`}
+      >
+        <ul className="flex flex-col sm:flex-row items-center justify-center gap-4 font-semibold">
+          {["Electronics", "Jewelry", "Men's Clothing", "Women's Clothing"].map(
+            (category) => (
+              <li key={category}>
+                <Link
+                  to={`/products/category/${category
+                    .toLowerCase()
+                    .replace("'s", "s")
+                    .replace(" ", "-")}`}
+                  className="block py-2 sm:py-0 relative group"
+                >
+                  <span className="relative inline-block">
+                    {category}
+                    <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                  </span>
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </nav>
 
-      <div className="flex items-center gap-4 mt-4 lg:mt-0 w-1/3 justify-end relative"> {/* Add relative positioning */}
+      {/*Right side of the navbar */}
+      <div className="flex items-center gap-4 mt-4 sm:mt-0 w-full sm:w-1/3 justify-end">
         <div className="relative flex-grow max-w-xs">
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer" />
           <input
             type="text"
             placeholder="Search..."
-            className="w-full pl-8 pr-2 py-1 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500"
+            className="w-full pl-8 pr-2 py-1 rounded-full border border-gray-300 focus:outline-none focus:border-black hover:bg-gray-100"
           />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
-        <button onClick={handleCartClick} className="text-2xl text-gray-700 hover:text-gray-900 relative"> {/* Change Link to button */}
+        <button
+          onClick={handleCartClick}
+          className="text-2xl text-gray-700 hover:bg-gray-200 p-1 rounded-full relative"
+        >
           <LiaShoppingBagSolid />
-          {itemCount > 0 && ( // Show counter if there are items in the cart
-            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
+          {itemCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
               {itemCount}
             </span>
           )}
