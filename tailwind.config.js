@@ -10,7 +10,6 @@ export default {
       fontFamily: {
         'h-regular': ['Helvetica', 'sans-serif'],
         'h-bold': ['Helvetica-Bold', 'sans-serif'],
-        'h-light': ['Helvetica-Light', 'sans-serif'],
         'h-oblique': ['Helvetica-Oblique', 'sans-serif'],
       },
     },

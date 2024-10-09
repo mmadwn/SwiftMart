@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsAsync } from "../features/products/productsSlice";
-import { FaStar } from "react-icons/fa"; 
-import { Link } from "react-router-dom"; 
-import video from "../assets/videos/hero.mp4"
-import Spinner from "../components/common/Spinner"; 
-import ErrorPage from "../components/common/ErrorPage"; 
+import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import video from "../assets/videos/hero.mp4";
+import Spinner from "../components/common/Spinner";
+import ErrorPage from "../components/common/ErrorPage";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -14,11 +15,15 @@ export default function HomePage() {
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
 
+  // State to manage scrollbar visibility
+  const [isMenScrollbarVisible, setMenScrollbarVisible] = useState(false);
+  const [isWomenScrollbarVisible, setWomenScrollbarVisible] = useState(false);
+
   useEffect(() => {
     dispatch(fetchProductsAsync());
   }, [dispatch]);
 
-  // Ui for loading and error
+  // UI for loading and error
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -31,60 +36,101 @@ export default function HomePage() {
     return <ErrorPage errorMessage={error} />;
   }
 
-  // Ui for the Home Page
+  // UI for the Home Page
   return (
-    <div className="home-page flex flex-col bg-white text-gray-800">
-      <div className="video-container w-full mb-8 relative">
-        <section className="video-section">
-          <video
-            src={video}
-            autoPlay
-            loop
-            muted
-            className="w-full h-[90vh] object-cover" // Changed height to 80vh
-          />
-        </section>
+    <div className="home-page bg-white text-gray-800">
+      {/* Hero Section */}
+      <section className="hero-section px-10">
+        <div className="hero-container">
+          {/* Video Section */}
+          <div className="video-container h-screen">
+            <video
+              src={video}
+              autoPlay
+              loop
+              muted
+              className="w-full h-full object-cover"
+            />
+          </div>
+          {/* Text Section */}
+          <div className="text-section bg-white py-12">
+            <div className="container mx-auto text-center">
+              <p className="text-sm mb-2">New Arrivals</p>
+              <h1 className="text-5xl font-bold mb-4">
+                Discover Your Signature Style
+              </h1>
+              <p className="text-lg mb-6">
+                Wear confidence. It&apos;s the perfect fit for every occasion.
+              </p>
+              <Link to="/products" className="inline-block">
+                <button className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-colors text-lg font-semibold">
+                  Shop Now
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <section className="text-section absolute bottom-0 left-0 w-full p-8 bg-black bg-opacity-50 text-white">
-          <p className="text-sm mb-2">New Arrivals</p>
-          <h2 className="text-4xl font-bold mb-2">
-            &ldquo;Discover Your Signature Style&rdquo;
-          </h2>
-          <p className="text-sm mb-4">
-            &ldquo;Wear confidence. It&apos;s the perfect fit for every
-            occasion.&rdquo;
-          </p>
-          <Link to="/products" className="inline-block">
-            <button className="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
-              Shop Now
-            </button>
-          </Link>
-        </section>
-      </div>
+      {/* Featured Section */}
+      <div className="featured-section container mx-auto py-16 px-4">
+        {/* Men Section */}
+        <section className="men-section mb-16">
+          <div className="flex justify-between items-center mb-8 px-10">
+            <h2 className="text-3xl font-bold">Men&apos;s Clothing</h2>
+            <div className="flex space-x-4">
+              <button
+                className="bg-gray-200 p-3 rounded-full text-xl hover:bg-gray-300 transition-colors"
+                aria-label="Scroll products left"
+                onClick={() => {
+                  const container = document.querySelector(".men-product-list");
+                  container.scrollBy({ left: -400, behavior: "smooth" });
+                }}
+              >
+                <IoIosArrowBack />
+              </button>
+              <button
+                className="bg-gray-200 p-3 rounded-full text-xl hover:bg-gray-300 transition-colors"
+                aria-label="Scroll products right"
+                onClick={() => {
+                  const container = document.querySelector(".men-product-list");
+                  container.scrollBy({ left: 400, behavior: "smooth" });
+                }}
+              >
+                <IoIosArrowForward />
+              </button>
+            </div>
+          </div>
 
-      <div className="flex flex-col space-y-8 px-4">
-        <section className="featured-section">
-          <h2 className="text-2xl font-bold mb-4">Men&apos;s Clothing</h2>
-          <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {" "}
-            {/* Use grid layout for products */}
+          {/*Product Items*/}
+          <div
+            className={`men-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-12 ${
+              isMenScrollbarVisible ? "scrollbar-visible" : "scrollbar-hide"
+            }`}
+            onMouseEnter={() => setMenScrollbarVisible(true)} // Show scrollbar on mouse enter
+            onMouseLeave={() => setMenScrollbarVisible(false)} // Hide scrollbar on mouse leave
+          >
             {menClothing.map((product) => (
               <Link
                 to={`/products/${product.id}`}
                 key={product.id}
-                className="border border-transparent hover:border-black rounded-lg p-4 transition-all duration-300"
+                className="flex-shrink-0 w-96 group"
               >
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-auto h-96 object-cover mb-2 rounded"
-                />
-                <h3 className="text-lg font-semibold truncate">
+                <div className="w-full h-96 mb-4 rounded-lg overflow-hidden p-4">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold truncate mb-2">
                   {product.title}
                 </h3>
-                <p className="text-blue-600 font-bold">${product.price}</p>
-                <p className="text-sm text-gray-600 flex items-center">
-                  <FaStar className="text-yellow-500 mr-1" />
+                <p className="text-blue-600 font-bold text-2xl mb-2">
+                  ${product.price.toFixed(2)}
+                </p>
+                <p className="text-base text-gray-600 flex items-center">
+                  <FaStar className="text-yellow-500 mr-2" />
                   {product.rating.rate} ({product.rating.count} reviews)
                 </p>
               </Link>
@@ -92,28 +138,67 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="new-this-week-section">
-          <h2 className="text-2xl font-bold mb-4">Women&apos;s Clothing</h2>
-          <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {" "}
-            {/* Use grid layout for products */}
+        {/* Women Section */}
+        <section className="women-section">
+          <div className="flex justify-between items-center mb-8 px-10">
+            <h2 className="text-3xl font-bold">Women&apos;s Clothing</h2>
+            <div className="flex space-x-4">
+              <button
+                className="bg-gray-200 p-3 rounded-full text-xl hover:bg-gray-300 transition-colors"
+                aria-label="Scroll products left"
+                onClick={() => {
+                  const container = document.querySelector(
+                    ".women-product-list"
+                  );
+                  container.scrollBy({ left: -400, behavior: "smooth" });
+                }}
+              >
+                <IoIosArrowBack />
+              </button>
+              <button
+                className="bg-gray-200 p-3 rounded-full text-xl hover:bg-gray-300 transition-colors"
+                aria-label="Scroll products right"
+                onClick={() => {
+                  const container = document.querySelector(
+                    ".women-product-list"
+                  );
+                  container.scrollBy({ left: 400, behavior: "smooth" });
+                }}
+              >
+                <IoIosArrowForward />
+              </button>
+            </div>
+          </div>
+
+          {/*Product Items*/}
+          <div
+            className={`women-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-12 ${
+              isWomenScrollbarVisible ? "scrollbar-visible" : "scrollbar-hide"
+            }`}
+            onMouseEnter={() => setWomenScrollbarVisible(true)}
+            onMouseLeave={() => setWomenScrollbarVisible(false)}
+          >
             {womenClothing.map((product) => (
               <Link
                 to={`/products/${product.id}`}
                 key={product.id}
-                className="border border-transparent hover:border-black rounded-lg p-4 transition-all duration-300"
+                className="flex-shrink-0 w-96 group"
               >
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-auto h-72 object-cover mb-2 rounded"
-                />
-                <h3 className="text-lg font-semibold truncate">
+                <div className="w-full h-96 mb-4 rounded-lg overflow-hidden p-4">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold truncate mb-2">
                   {product.title}
                 </h3>
-                <p className="text-blue-600 font-bold">${product.price}</p>
-                <p className="text-sm text-gray-600 flex items-center">
-                  <FaStar className="text-yellow-500 mr-1" />
+                <p className="text-blue-600 font-bold text-2xl mb-2">
+                  ${product.price.toFixed(2)}
+                </p>
+                <p className="text-base text-gray-600 flex items-center">
+                  <FaStar className="text-yellow-500 mr-2" />
                   {product.rating.rate} ({product.rating.count} reviews)
                 </p>
               </Link>

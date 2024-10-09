@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../../components/common/Spinner'; // Import Spinner
 import ErrorPage from '../../components/common/ErrorPage'; // Import ErrorPage
 
-export default function ProductList({ category = 'all' }) {
+export default function ProductList({ category}) {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.products.loading);
     const error = useSelector((state) => state.products.error);
