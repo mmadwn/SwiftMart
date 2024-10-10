@@ -32,7 +32,7 @@ SwiftMart is an e-commerce platform designed to provide a fast and efficient sho
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mmadwn/SwiftMart
+   git clone https://github.com/mmadwn/SwiftMart.git
    cd SwiftMart
    ```
 
