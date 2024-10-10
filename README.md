@@ -32,8 +32,8 @@ SwiftMart is an e-commerce platform designed to provide a fast and efficient sho
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/swift-mart.git
-   cd swift-mart
+   git clone https://github.com/mmadwn/SwiftMart
+   cd SwiftMart
    ```
 
 2. Install dependencies:
