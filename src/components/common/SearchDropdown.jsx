@@ -13,7 +13,7 @@ const SearchDropdown = ({ onClose }) => {
   // Filter products based on the search term
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  ).slice(0, 5); // Limit to top 5 products
+  ).slice(0, 6); // Limit to top 7 products
 
   return (
     <div className="fixed top-0 left-0 w-full h-1/2 bg-white z-50 flex flex-col">
