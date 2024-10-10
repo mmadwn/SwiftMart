@@ -4,19 +4,23 @@ import { fetchProducts } from "../../utils/api";
 // Async thunk to fetch all products
 export const fetchProductsAsync = createAsyncThunk(
     'products/fetchProducts',
-    async (_, { getState }) => {
-        const response = await fetchProducts(); // Fetch all products
-        const currentState = getState().products;
-        return response.map(product => {
-            //Check if the product already exists in the current state
-            const existingProduct = currentState.allProducts.find(p => p.id === product.id);
-            return {
-                ...product,
-                quantity: existingProduct ? existingProduct.quantity : 20
-            };
-        });
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const response = await fetchProducts();
+            const currentState = getState().products;
+            return response.map(product => {
+                const existingProduct = currentState.allProducts.find(p => p.id === product.id);
+                return {
+                    ...product,
+                    quantity: existingProduct ? existingProduct.quantity : 20
+                };
+            });
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
 );
+
 
 const initialState = {
     mensProducts: [],
@@ -35,15 +39,11 @@ const productsSlice = createSlice({
     initialState,
     reducers: {
         updateProductQuantities: (state, action) => {
-            const productsToUpdate = action.payload; // Expecting an array of product objects with id and quantity
+            const productsToUpdate = action.payload;
             productsToUpdate.forEach(product => {
-                const existingProduct = state.allProducts.find(item => item.id === product.id); // Change from state.items to state.allProducts
+                const existingProduct = state.allProducts.find(item => item.id === product.id);
                 if (existingProduct) {
-                    existingProduct.quantity -= product.quantity; // Reduce the quantity based on the checkout
-                    // Ensure quantity does not go below zero
-                    if (existingProduct.quantity < 0) {
-                        existingProduct.quantity = 0; // Prevent negative quantities
-                    }
+                    existingProduct.quantity = Math.max(existingProduct.quantity - product.quantity, 0); // Prevent negative quantities
                 }
             });
         },
@@ -57,27 +57,30 @@ const productsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchProductsAsync.pending, (state) => {
-                state.loading = true; // Set loading to true when fetching
+                state.loading = true;
             })
             .addCase(fetchProductsAsync.fulfilled, (state, action) => {
-                state.allProducts = action.payload; // Set all products in the state
-                state.mensProducts = action.payload.filter(product => product.category === "men's clothing");
-                state.womensProducts = action.payload.filter(product => product.category === "women's clothing");
-                state.jewelryProducts = action.payload.filter(product => product.category === "jewelery");
-                state.electronicsProducts = action.payload.filter(product => product.category === "electronics");
-                state.loading = false; // Set loading to false when done
+                const filterByCategory = (category) => action.payload.filter(product => product.category === category);
+
+                state.allProducts = action.payload;
+                state.mensProducts = filterByCategory("men's clothing");
+                state.womensProducts = filterByCategory("women's clothing");
+                state.jewelryProducts = filterByCategory("jewelery");
+                state.electronicsProducts = filterByCategory("electronics");
+                state.loading = false;
             })
             .addCase(fetchProductsAsync.rejected, (state, action) => {
-                state.loading = false; // Set loading to false on error
-                state.error = action.error.message; // Set error message
-            })
+                state.loading = false;
+                state.error = action.payload;
+            });
     }
+
 });
 
 
-export const { 
+export const {
     setSelectedProduct, // Export the new action
-    updateProductQuantities 
+    updateProductQuantities
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

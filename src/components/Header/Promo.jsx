@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { FaGift, FaShippingFast, FaTshirt } from "react-icons/fa";
 
 function Promo() {
   const [currentPromo, setCurrentPromo] = useState("");
   const [currentIcon, setCurrentIcon] = useState(null);
-  const promos = [
-    { text: "Special Offer: 20% off all electronics!", icon: FaGift },
-    { text: "Free shipping on orders over $50", icon: FaShippingFast },
-    { text: "New arrivals in women's clothing", icon: FaTshirt },
-  ];
+  
+  const promos = useMemo(() => [
+    { text: "Special Offer: 20% off all electronics!", icon: <FaGift /> },
+    { text: "Free shipping on orders over $50", icon: <FaShippingFast /> },
+    { text: "New arrivals in women's clothing", icon: <FaTshirt /> },
+  ], []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -18,7 +19,7 @@ function Promo() {
     }, 3000); // Change promo every 3 seconds
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [promos]);
 
   return (
     <div className="flex items-center justify-center bg-gray-100 px-12 py-4 h-16">
