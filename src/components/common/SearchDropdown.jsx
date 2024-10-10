@@ -28,7 +28,7 @@ const SearchDropdown = ({ onClose }) => {
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
-              className="w-full py-2 px-4 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full py-2 px-4 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
             />
             <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
@@ -52,12 +52,12 @@ const SearchDropdown = ({ onClose }) => {
                 <Link 
                   key={product.id} 
                   to={`/products/${product.id}`} 
-                  className="flex flex-col items-center border rounded-md p-2 w-72 h-72"
+                  className="flex flex-col items-center border rounded-md p-5 w-72 h-72"
                   onClick={onClose} // Close dropdown on click
                 >
-                  <img src={product.image} alt={product.title} className="w-full h-5/6 object-cover" />
+                  <img src={product.image} alt={product.title} className="w-full h-5/6 object-contain" />
                   <div className="flex flex-col text-center flex-grow justify-between mt-2">
-                    <span className="font-semibold text-sm">{product.title.length > 15 ? `${product.title.substring(0, 15)}...` : product.title}</span>
+                    <span className="font-semibold text-sm">{product.title.length > 15 ? `${product.title.substring(0, 20)}...` : product.title}</span>
                     <span className="text-gray-600 text-xs">${product.price}</span>
                   </div>
                 </Link>
