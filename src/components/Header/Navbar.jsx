@@ -4,9 +4,10 @@ import { FaSearch } from "react-icons/fa";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-
+import SearchDropdown from "../common/SearchDropdown";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
 
@@ -14,6 +15,10 @@ function Navbar() {
 
   const handleCartClick = () => {
     navigate("/cart");
+  };
+
+  const toggleSearchDropdown = () => {
+    setIsSearchOpen(!isSearchOpen);
   };
 
   return (
@@ -80,12 +85,17 @@ function Navbar() {
       {/*Right side of the navbar */}
       <div className="flex items-center gap-4 mt-4 sm:mt-0 w-full sm:w-1/3 justify-end">
         <div className="relative flex-grow max-w-xs">
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer" />
+          <FaSearch 
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer" 
+            onClick={toggleSearchDropdown}
+          />
           <input
             type="text"
             placeholder="Search..."
             className="w-full pl-8 pr-2 py-1 rounded-full border border-gray-300 focus:outline-none focus:border-black hover:bg-gray-100"
+            onClick={toggleSearchDropdown}
           />
+          {isSearchOpen && <SearchDropdown onClose={() => setIsSearchOpen(false)} />} {/* Close dropdown on close */}
         </div>
         <button
           onClick={handleCartClick}

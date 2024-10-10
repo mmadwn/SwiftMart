@@ -6,7 +6,7 @@ import video from "../assets/videos/hero.mp4";
 import Spinner from "../components/common/Spinner";
 import ErrorPage from "../components/common/ErrorPage";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import ProductItem from "../features/products/ProductItem"; // Import the new ProductItem component
+import ProductItem from "../features/products/ProductItem"; 
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Section */}
-      <div className="featured-section container mx-auto py-16 px-4">
+      <div className="featured-section mx-auto py-16 px-10">
         {/* Men Section */}
         <section className="men-section mb-16">
           <div className="flex justify-between items-center mb-8 px-10">
@@ -104,7 +104,7 @@ export default function HomePage() {
 
           {/* Product Items */}
           <div
-            className={`men-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-12 ${
+            className={`men-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-10 ${
               isMenScrollbarVisible ? "scrollbar-visible" : "scrollbar-hide"
             }`}
             onMouseEnter={() => setMenScrollbarVisible(true)} // Show scrollbar on mouse enter
@@ -146,7 +146,7 @@ export default function HomePage() {
 
           {/* Product Items */}
           <div
-            className={`women-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-12 ${
+            className={`women-product-list flex overflow-x-auto space-x-12 pb-8 scroll-smooth px-10 ${
               isWomenScrollbarVisible ? "scrollbar-visible" : "scrollbar-hide"
             }`}
             onMouseEnter={() => setWomenScrollbarVisible(true)}
