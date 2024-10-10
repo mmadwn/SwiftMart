@@ -32,7 +32,7 @@ export default function ProductList({ category }) {
 
     // Ui for the Product List
     return (
-        <div className="container mx-auto p-8">
+        <div className="mx-auto p-8">
             <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
