@@ -26,7 +26,7 @@ export default function HomePage() {
   // UI for loading and error
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen sm:h-">
         <Spinner message="Loading products..." />
       </div>
     );
@@ -43,7 +43,7 @@ export default function HomePage() {
       <section className="hero-section px-10">
         <div className="hero-container">
           {/* Video Section */}
-          <div className="video-container h-screen">
+          <div className="video-container h-screen sm:h-[40vh]">
             <video
               src={video}
               autoPlay
