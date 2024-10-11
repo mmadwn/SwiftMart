@@ -20,6 +20,11 @@ SwiftMart is an e-commerce platform designed to provide a fast and efficient sho
 - Seamless navigation with React Router
 - Modern JavaScript (ES6+) syntax
 - Consistent code quality with ESLint
+- User authentication and authorization
+- User information access and management using JWT
+- Persistent user sessions using local storage
+- Dynamic product fetching and display
+- Responsive design for various screen sizes
 
 ## Getting Started
 
@@ -51,5 +56,3 @@ SwiftMart is an e-commerce platform designed to provide a fast and efficient sho
    ```
 
 4. Open your browser and visit `http://localhost:5173` to see the application running.
-
-
