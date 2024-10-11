@@ -11,7 +11,6 @@ export const fetchUserData = createAsyncThunk(
 
             if (userData && userData.sub) {
                 const userDetails = await fetchUserById(userData.sub);
-                console.log("Fetched user details:", userDetails);
                 return userDetails;
             }
             return null;
