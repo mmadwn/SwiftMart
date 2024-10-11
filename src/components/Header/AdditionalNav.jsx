@@ -5,7 +5,8 @@ import { useState, useRef, useEffect } from 'react';
 import { logout } from '../../features/auth/authSlice';
 
 function AdditionalNav() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
@@ -63,7 +64,7 @@ function AdditionalNav() {
               className="text-sm flex items-center hover:text-gray-600"
             >
               <LuUser className="inline-block text-lg mr-1" />
-              Mock User
+              {user ? `${user.name.firstname} ${user.name.lastname}` : "User"}
             </button>
             {dropdownOpen && (
               <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">

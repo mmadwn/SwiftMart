@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getToken, setToken, removeToken } from "../../utils/localStorage";
+import { getToken, setToken, removeToken, removeUser } from "../../utils/localStorage";
 import { loginUser } from "../../utils/api";
 
 export const loginUserAsync = createAsyncThunk(
@@ -7,7 +7,7 @@ export const loginUserAsync = createAsyncThunk(
     async ({ username, password }, { rejectWithValue }) => {
         try {
             const data = await loginUser(username, password);
-            return { token: data.token, user: { username } };
+            return { token: data.token, user: {username}};
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -15,7 +15,7 @@ export const loginUserAsync = createAsyncThunk(
 );
 
 const initialState = {
-    user: null,
+    // user: null,
     token: getToken(),
     isAuthenticated: !!getToken(),
     loading: false,
@@ -27,10 +27,11 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            state.user = null;
+            // state.user = null;
             state.token = null;
             state.isAuthenticated = false;
             removeToken();
+            removeUser();
         },
         resetError: (state) => {
             state.error = null; // Reset error state
@@ -43,7 +44,7 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(loginUserAsync.fulfilled, (state, action) => {
-                state.user = action.payload.user;
+                // state.user = action.payload.user;
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
                 state.loading = false;
@@ -51,7 +52,7 @@ const authSlice = createSlice({
                 setToken(action.payload.token);
             })
             .addCase(loginUserAsync.rejected, (state, action) => {
-                state.user = null;
+                // state.user = null;
                 state.token = null;
                 state.isAuthenticated = false;
                 state.loading = false;

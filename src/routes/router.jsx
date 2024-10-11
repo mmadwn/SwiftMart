@@ -8,7 +8,7 @@ import ProtectedRoute from "../components/common/ProtectedRoute";
 import ErrorPage from "../components/common/ErrorPage";
 import ProductList from "../features/products/ProductList";
 import CartPage from "../features/cart/CartPage";
-
+import UserProfile from "../features/users/UserProfile";
 // Lazy load the ProductList and ProductDetail components : EXPERIMENTAL
 const lazyComponents = {
   ProductDetail: lazy(() => import("../features/products/ProductDetail")),
@@ -68,6 +68,15 @@ export const router = createBrowserRouter([
         path: "products/category/womens-clothing",
         element: (
             <ProductList category="womens" />
+        ),
+      },
+
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute>
+              <UserProfile />
+          </ProtectedRoute>
         ),
       },
     ],
