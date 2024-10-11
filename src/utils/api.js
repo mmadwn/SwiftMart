@@ -15,3 +15,9 @@ export const fetchProducts = async () => {
     const response = await axios.get(url);
     return response.data; // Return the data directly
 };
+
+export const fetchUserById = async (id) => {
+    const url = `https://fakestoreapi.com/users/${id}`;
+    const response = await axios.get(url);
+    return response.data; // Return the user data
+};

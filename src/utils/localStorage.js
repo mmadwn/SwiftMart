@@ -24,3 +24,17 @@ export const getCart = () => {
 export const removeCart = () => {
     localStorage.removeItem('cart');
 };
+
+// functions for user data
+export const setUser = (userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+};
+
+export const getUser = () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+};
+
+export const removeUser = () => {
+    localStorage.removeItem('user');
+};

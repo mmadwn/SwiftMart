@@ -3,11 +3,19 @@ import CartItem from './CartItem';
 import { clearCart } from './cartSlice'; 
 import { updateProductQuantities } from '../products/productsSlice';
 import { FaShoppingCart } from 'react-icons/fa';
+import { useEffect } from 'react';
+import { fetchUserData } from '../users/userSlice';
+
 
 function CartPage() {
     const dispatch = useDispatch();
     const items = useSelector((state) => state.cart.items);
     
+    useEffect(() => {
+        dispatch(fetchUserData());
+    }, [dispatch]);
+
+
     const handleCheckout = () => {
         // Create an array of products to update
         const productsToUpdate = items.map(item => ({
