@@ -43,7 +43,7 @@ export default function HomePage() {
       <section className="hero-section px-10">
         <div className="hero-container">
           {/* Video Section */}
-          <div className="video-container h-screen">
+          <div className="video-container h-[40vh] md:h-[80vh] lg:h-screen">
             <video
               src={video}
               autoPlay
