@@ -26,7 +26,7 @@ export default function HomePage() {
   // UI for loading and error
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen sm:h-">
         <Spinner message="Loading products..." />
       </div>
     );
